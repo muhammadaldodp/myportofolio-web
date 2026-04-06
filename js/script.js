@@ -44,12 +44,11 @@ document.getElementById('projectForm').addEventListener('submit', function (e) {
   };
 });
 
-function renderProjects() {
+function renderProjects(data = projects) {
   let container = document.getElementById('projectList');
-  container.innerHTML = '';
 
-  projects.forEach((project, index) => {
-    container.innerHTML += `
+  let cards = data.map((project, index) => {
+    return `
       <div class="card p-3 m-2" style="width: 18rem;">
         <img src="${project.image}" class="card-img-top">
         <div class="card-body">
@@ -66,6 +65,8 @@ function renderProjects() {
       </div>
     `;
   });
+
+  container.innerHTML = cards.join('');
 }
 
 function deleteProject(index) {
@@ -77,4 +78,10 @@ function deleteProject(index) {
 function detailProject(index) {
   localStorage.setItem('detailIndex', index);
   window.location.href = 'detail-project.html';
+}
+
+function filterTechnology(tech) {
+  let filtered = projects.filter((project) => project.technologies.includes(tech));
+
+  renderProjects(filtered);
 }
